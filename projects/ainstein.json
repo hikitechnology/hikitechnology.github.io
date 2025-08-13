@@ -91,7 +91,7 @@
     },
     {
       "title": "Authentication",
-      "description": "Users are given a limited number of unauthenticated messages, after which they are prompted to sign in using an OAuth 2.0 provider. Upon sign in, their previous messages linked to the new account.",
+      "description": "Users are given a limited number of unauthenticated messages, after which they are prompted to sign in using an OAuth 2.0 provider. Upon sign in, their previous messages are linked to the new account.",
       "icon": "key-round"
     },
     {
