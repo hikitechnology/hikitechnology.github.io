@@ -22,9 +22,9 @@ export default function Portfolio({ profile, projects }: Props) {
       : projects;
 
   return (
-    <div className="min-h-screen bg-zinc-950 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-zinc-950 relative overflow-hidden">
       <Background showAccentBlobs />
-      <div className="relative z-10">
+      <div className="relative z-10 flex-1">
         <Header profile={profile} />
 
         <main className="container mx-auto px-6 pb-12">
@@ -51,8 +51,8 @@ export default function Portfolio({ profile, projects }: Props) {
             </div>
           </div>
         </main>
-        <Footer profile={profile} />
       </div>
+      <Footer profile={profile} />
     </div>
   );
 }

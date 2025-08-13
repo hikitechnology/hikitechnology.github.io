@@ -21,9 +21,9 @@ export default function Project({ profile, project }: Props) {
   );
 
   return (
-    <div className="min-h-screen bg-zinc-950 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-zinc-950 relative overflow-hidden">
       <Background />
-      <div className="relative z-10">
+      <div className="relative z-10 flex-1">
         <Header project={project} />
 
         <div className="container mx-auto px-6 mb-8">
@@ -57,8 +57,8 @@ export default function Project({ profile, project }: Props) {
             {activeTab === "process" && <ProcessTab project={project} />}
           </div>
         </main>
-        <Footer profile={profile} />
       </div>
+      <Footer profile={profile} />
     </div>
   );
 }
