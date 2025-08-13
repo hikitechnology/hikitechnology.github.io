@@ -1,0 +1,16 @@
+{
+  "role": "Junior Fullstack Developer",
+  "skills": [
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "React Native",
+    "Next.js",
+    "Node.js",
+    "Express.js"
+  ],
+  "name": "hikitechnology",
+  "email": "hikitech@proton.me",
+  "github": "https://github.com/hikitechnology",
+  "resume": "/resume.pdf"
+}

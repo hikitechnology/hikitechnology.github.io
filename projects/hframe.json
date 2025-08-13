@@ -1,0 +1,87 @@
+{
+  "title": "HFrame",
+  "cardImage": "/hframe.png",
+  "projectImage": "/hframe.png",
+  "shortDescription": "Canvas-based UI framework built with TypeScript",
+  "github": "https://github.com/hikitechnology/hframe",
+  "demo": "https://hikitechnology.github.io/hframe/",
+  "tags": [
+    "TypeScript",
+    "OOP"
+  ],
+  "inDevelopment": false,
+  "tagline": "Canvas UI Framework",
+  "longDescription": "HFrame is an experimental JS/TS framework that renders to a canvas instead of the DOM. Interactive webapps are often limited in performance by the browser's HTML tree parsing - for deeply nested structures, the browser may recalculate the size and position of hundreds of elements at a time. HFrame avoids intensive DOM manipulation by rendering the app to a canvas instead of HTML elements.\nHFrame was the first project I made after reading Code Complete 2 and Head First Design Patterns. Its primary purpose was to help me practice the OOP concepts introduced within those books.",
+  "status": "Backburner",
+  "timeline": "2 months",
+  "role": "Developer",
+  "team": "Solo Project",
+  "techStack": [
+    {
+      "category": "Frontend",
+      "icon": "globe",
+      "items": [
+        {
+          "name": "TypeScript",
+          "description": "Type-safe development"
+        }
+      ]
+    },
+    {
+      "category": "Developer Tooling",
+      "icon": "wrench",
+      "items": [
+        {
+          "name": "Vite",
+          "description": "TypeScript build tool"
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "title": "Composability",
+      "description": "In HFrame, all UI components implement the \"element\" interface, including layout components. Accordingly, layouts and elements can be composed together to create complex application interfaces and compound elements.",
+      "icon": "box"
+    },
+    {
+      "title": "Object-Oriented Design",
+      "description": "The design of HFrame adheres to the OOP principles of abstraction, encapsulation, inheritance, and polymorphism. Classes are programmed with high cohesion, and browser APIs are abstracted to reduce complexity.",
+      "icon": "braces"
+    },
+    {
+      "title": "Flexbox-like Layouts",
+      "description": "Components can be laid out using absolute sizes (in pixels), or percentages of the parent component. Panels can be resized by dragging their edges.",
+      "icon": "layout-template"
+    },
+    {
+      "title": "Styling and Themes",
+      "description": "HFrame's default themes can be extended and customized using the ThemeBuilder. Styles of individual components can also be customized inline by the user.",
+      "icon": "brush"
+    }
+  ],
+  "challenges": [
+    {
+      "problem": "Implementing Flexbox-like Layouts",
+      "solution": "Creating a flexbox-like layout system on canvas was difficult, since canvas lacks native layout engines like CSS. Calculating relative positions and sizes required recursive calculation of component sizes based on parent dimensions.",
+      "code": "// Method to get allocated rectangle of a child component in a directional layout\n\nprotected getAllocRect(baseRect: Rect, element: Element) {\n  const allocation = this.getAllocation(element);\n\n  // find the x/y coord to find the allocation rect at\n  let offset = 0;\n  for (const alloc of this.allocations) {\n    if (alloc === allocation) {\n      break;\n    }\n    if (alloc.type === \"pixel\") {\n      offset += alloc.size;\n    } else {\n      offset +=\n        (alloc.size / this.sumRelativeAllocations()) *\n        ((this.isVertical ? baseRect.height : baseRect.width) -\n          this.sumPixelAllocations());\n    }\n  }\n\n  const x = baseRect.x + (this.isVertical ? 0 : offset);\n  const y = baseRect.y + (this.isVertical ? offset : 0);\n\n  const thisAllocSize =\n    allocation.type === \"pixel\"\n      ? allocation.size\n      : (allocation.size / this.sumRelativeAllocations()) *\n        ((this.isVertical ? baseRect.height : baseRect.width) -\n          this.sumPixelAllocations());\n\n  const width = this.isVertical ? baseRect.width : thisAllocSize;\n  const height = this.isVertical ? thisAllocSize : baseRect.height;\n\n  return Rect.from(x, y, width, height);\n}"
+    },
+    {
+      "problem": "Handling Resize Interactions",
+      "solution": "Implementing draggable panel resizing was tricky, and manually checking the distance of the cursor to element boundaries created unnecessary complexity. To handle geometric operations in a more declarative way, I created several shape classes - points, line segments, and rectangles - and composed them together, abstracting away mathematical formulas for distance, overlap, transformations, and more.",
+      "code": "// Method to get the hovered edge of a panel for resizing operations\n\nprotected getHoveredEdge(rect: Rect, context: Context): ResizeSide | null {\n  if (this.isVertical) {\n    if (rect.top.touchesPoint(context.mousePos, RESIZE_LEEWAY)) {\n      return \"top\";\n    } else if (rect.bottom.touchesPoint(context.mousePos, RESIZE_LEEWAY)) {\n      return \"bottom\";\n    }\n  } else {\n    if (rect.left.touchesPoint(context.mousePos, RESIZE_LEEWAY)) {\n      return \"left\";\n    } else if (rect.right.touchesPoint(context.mousePos, RESIZE_LEEWAY)) {\n      return \"right\";\n    }\n  }\n\n  return null;\n}"
+    }
+  ],
+  "process": [
+    {
+      "phase": "Learning & Early Development",
+      "duration": "1 month",
+      "description": "Began experimenting with the canvas framework idea as a way to practice the OOP concepts I had read about prior. Began working on the project, scrapped everything, and restarted multiple times as I gained footing."
+    },
+    {
+      "phase": "Current Stage",
+      "duration": "1 month",
+      "description": "Began working on the current version of HFrame, with the knowledge and practice I gained from working on the previous iterations. Became more comfortable with the OOP paradigm as I practiced."
+    }
+  ]
+}

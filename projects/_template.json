@@ -1,0 +1,58 @@
+{
+  "title": "Project title",
+  "cardImage": "Image shown on card",
+  "shortDescription": "Short description shown on project card",
+  "github": "Project GitHub link (optional)",
+  "live": "Project live link (optional)",
+  "demo": "Project demo link (optional)",
+  "tags": [
+    "tag 1",
+    "tag 2"
+  ],
+  "inDevelopment": true,
+  "projectImage": "Image shown on project page",
+  "tagline": "Tagline shown on project page",
+  "longDescription": "Longer description shown on project page",
+  "status": "Project status",
+  "timeline": "Project timeline",
+  "role": "My role",
+  "team": "My team",
+  "techStack": [
+    {
+      "category": "Frontend",
+      "icon": "icon-name",
+      "items": [
+        {
+          "name": "item name",
+          "description": "item description"
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "title": "feature title",
+      "description": "feature description",
+      "icon": "icon-name"
+    }
+  ],
+  "challenges": [
+    {
+      "problem": "Problem name",
+      "solution": "Problem solution",
+      "code": "Solution code block"
+    }
+  ],
+  "process": [
+    {
+      "phase": "First Phase",
+      "duration": "1 week",
+      "description": "Description of this phase item",
+      "deliverables": [
+        "List",
+        "Of",
+        "Deliverables"
+      ]
+    }
+  ]
+}

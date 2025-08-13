@@ -1,0 +1,151 @@
+{
+  "title": "Whim",
+  "cardImage": "/whim.png",
+  "projectImage": "/whim-preview.png",
+  "shortDescription": "Cross-platform location-based social app built with React Native",
+  "github": "https://example.com",
+  "tags": [
+    "TypeScript",
+    "React Native",
+    "Expo",
+    "ExpressJS",
+    "Drizzle ORM",
+    "Firebase Auth"
+  ],
+  "inDevelopment": true,
+  "tagline": "Location-based Social App",
+  "longDescription": "Whim is a location-based social app designed to encourage in-person interaction and healthy relationships. Through location-based matching, the app connects you with people with similar interests, who frequent the same spots as you.\nWhim leverages background geolocation to continuously scan for connections, even when the app is in the background. It features a warm, welcoming design, emphasizing human connection and spontaneity.",
+  "status": "Development",
+  "timeline": "1.5 months (ongoing)",
+  "role": "Fullstack Developer",
+  "team": "Solo Project",
+  "techStack": [
+    {
+      "category": "Frontend",
+      "icon": "globe",
+      "items": [
+        {
+          "name": "TypeScript",
+          "description": "Type-safe development"
+        },
+        {
+          "name": "React Native",
+          "description": "Cross-platform compatiblity"
+        },
+        {
+          "name": "Expo",
+          "description": "Improved developer experience for React Native"
+        },
+        {
+          "name": "Socket.IO",
+          "description": "Real-time messaging"
+        },
+        {
+          "name": "Tanstack Query",
+          "description": "Reliable caching of user profiles and other API calls"
+        },
+        {
+          "name": "Zustand",
+          "description": "State management with persistence middleware"
+        }
+      ]
+    },
+    {
+      "category": "Backend",
+      "icon": "server",
+      "items": [
+        {
+          "name": "TypeScript",
+          "description": "Type-safe development"
+        },
+        {
+          "name": "Express.js",
+          "description": "Flexible web application framework"
+        },
+        {
+          "name": "Drizzle ORM",
+          "description": "Type-safe & sql-like ORM"
+        },
+        {
+          "name": "PostgreSQL",
+          "description": "Powerful relational database"
+        },
+        {
+          "name": "PostGIS",
+          "description": "Location storage and querying for PostgreSQL"
+        },
+        {
+          "name": "Firebase Admin",
+          "description": "Firebase integration for custom backend"
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "title": "Background Geolocation",
+      "description": "Whim utilizes a background location task, defined using Expo Task Manager, to search for connections in the foreground and background.",
+      "icon": "globe"
+    },
+    {
+      "title": "Profile Customization",
+      "description": "Whim provides users a great deal of creative freedom over their profile page. Users can pick and choose from a list of interactive profile components to make their personality shine.",
+      "icon": "user-pen"
+    },
+    {
+      "title": "Messaging",
+      "description": "Whim leverages Socket.IO to provide real-time messaging capabilities. Messages are synchronized with the server to enable cross-device persistence.",
+      "icon": "message-circle"
+    },
+    {
+      "title": "SMS Authentication",
+      "description": "Whim utilizes Firebase Authentication to enable passwordless SMS authentication. Users can easily create or sign in to an account, without worrying about verification emails or lost passwords.",
+      "icon": "shield"
+    }
+  ],
+  "challenges": [
+    {
+      "problem": "Firebase Auth Integration",
+      "solution": "Whim uses Firebase for authentication, but otherwise uses a fully custom backend. Seamless integration was accomplished using Firebase Admin on the backend and React Native Firebase (wrapped with a custom hook) on the frontend.",
+      "code": "// Authorization middleware for Express app, using Firebase Admin to verify bearer token\n\nexport const auth: RequestHandler = async (req, _res, next) => {\n  try {\n    const authToken = req.headers.authorization?.split(\" \")[1];\n    if (!authToken) {\n      throw new HttpException(401);\n    }\n\n    const auth = getAuth();\n    const { uid } = await auth.verifyIdToken(authToken);\n    await createUserIfNotExists(uid);\n    req.uid = uid;\n    return next();\n  } catch (error) {\n    if (error instanceof Error && !(error instanceof HttpException)) {\n      const httpError = new HttpException(401, error);\n      return next(httpError);\n    }\n    return next(error);\n  }\n};\n"
+    },
+    {
+      "problem": "Location-based Matching",
+      "solution": "Synchronizing live user location with the server, and broadcasting connection information when users are close in proximity, required careful interoperation between the client and server. By periodically broadcasting the user's location using a background task, and then evaluating geographic distance between user clusters on the server using PostGIS, location-based matching was implemented.",
+      "code": "// Query for users close to a geographic point using Drizzle ORM and PostGIS\n\nexport async function getUsersNearPoint(point: {\n  x: number;\n  y: number;\n}): Promise<\n  {\n    user: User;\n    distance: number;\n  }[]\n> {\n  const users = await db\n    .select({\n      ...getTableColumns(usersTable),\n      distance: sql<number>`ST_Distance(${usersTable.location}::geography, ST_MakePoint(${point.x}, ${point.y})::geography)`,\n    })\n    .from(usersTable)\n    .where(\n      and(\n        sql`ST_DWithin(${usersTable.location}::geography, ST_MakePoint(${point.x}, ${point.y})::geography, ${CONNECTION_RADIUS_METERS})`,\n        gt(\n          usersTable.locationUpdated,\n          sql`NOW() - ${LOCATION_EXPIRES_MINUTES} * (INTERVAL '1 MINUTE')`,\n        ),\n      ),\n    );\n\n  return users.map((userWithDistance) => {\n    const { distance, ...user } = userWithDistance;\n    return {\n      user,\n      distance,\n    };\n  });\n}\n"
+    }
+  ],
+  "process": [
+    {
+      "phase": "Ideation",
+      "duration": "1 week",
+      "description": "Brainstormed the concept for a location-based social app to foster in-person connections. Defined core features like background geolocation, profile customization, and real-time messaging.",
+      "deliverables": [
+        "User personas",
+        "Feature list",
+        "Initial wireframes"
+      ]
+    },
+    {
+      "phase": "Planning",
+      "duration": "1 week",
+      "description": "Developed a project roadmap and technical architecture. Selected the tech stack, prioritizing TypeScript, React Native, and Express.js for cross-platform compatibility and type safety. Planned database schema using PostgreSQL with PostGIS for location-based queries.",
+      "deliverables": [
+        "Project timeline",
+        "Tech stack documentation",
+        "Database schema"
+      ]
+    },
+    {
+      "phase": "Development",
+      "duration": "5 weeks (ongoing)",
+      "description": "Built the frontend with React Native and Expo, integrating Zustand for state management and Tanstack Query for API caching. Developed the backend with Express.js and Drizzle ORM, incorporating PostGIS for location queries and Firebase Admin for authentication. Implemented core features like background geolocation and real-time messaging with socket.io.",
+      "deliverables": [
+        "Frontend codebase",
+        "Backend API",
+        "Authentication system",
+        "Location-based matching prototype"
+      ]
+    }
+  ]
+}

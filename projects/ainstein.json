@@ -1,0 +1,145 @@
+{
+  "title": "AInstein.io",
+  "tagline": "AI Research Assistant",
+  "shortDescription": "AI research assistant that retrieves information from peer-reviewed academic literature",
+  "longDescription": "AInstein is an AI research assistant that derives its responses from peer-reviewed academic literature. At the time of its creation, web search capabilities among frontier LLMs were still in their infancy, and obtaining reliable scientific information using them was a struggle.\nAInstein organically grew to over 50 active users by late December of 2024, but growth soon tapered, coinciding with widespread adoption of agentic search capabilities by mainstream providers (i.e. OpenAI's Deep Research).",
+  "cardImage": "/ainstein.png",
+  "projectImage": "/ainstein-preview.png",
+  "github": "https://github.com/hikitechnology/ainstein",
+  "live": "https://ainstein.io",
+  "inDevelopment": false,
+  "status": "Production",
+  "timeline": "3 months",
+  "role": "Fullstack Developer",
+  "team": "Solo Project",
+  "tags": [
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Drizzle ORM",
+    "Tailwind CSS",
+    "OpenAI API",
+    "RAG",
+    "Prompt Engineering"
+  ],
+  "techStack": [
+    {
+      "category": "Frontend",
+      "icon": "globe",
+      "items": [
+        {
+          "name": "TypeScript",
+          "description": "Type-safe development"
+        },
+        {
+          "name": "React",
+          "description": "Composable UI"
+        },
+        {
+          "name": "Tailwind CSS",
+          "description": "Utility-first styling"
+        },
+        {
+          "name": "shadcn/ui",
+          "description": "Modern, accessible components"
+        }
+      ]
+    },
+    {
+      "category": "Backend",
+      "icon": "server",
+      "items": [
+        {
+          "name": "TypeScript",
+          "description": "Type-safe development"
+        },
+        {
+          "name": "Next.js",
+          "description": "Next.js 15 with app router"
+        },
+        {
+          "name": "Drizzle ORM",
+          "description": "Type-safe & sql-like ORM"
+        },
+        {
+          "name": "PostgreSQL",
+          "description": "Powerful relational database"
+        }
+      ]
+    },
+    {
+      "category": "Server",
+      "icon": "database",
+      "items": [
+        {
+          "name": "Ubuntu Server",
+          "description": "Ubuntu 24.04 LTS"
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "title": "Research Dataset",
+      "description": "AInstein is built on the Semantic Scholar Academic Graph (S2AG) API, providing access to over 200 million academic papers.",
+      "icon": "landmark"
+    },
+    {
+      "title": "User Interface",
+      "description": "AInstein boasts a sleek, performant, accessible user interface, built using shadcn/ui components.",
+      "icon": "brush"
+    },
+    {
+      "title": "Authentication",
+      "description": "Users are given a limited number of unauthenticated messages, after which they are prompted to sign in using an OAuth 2.0 provider. Upon sign in, their previous messages linked to the new account.",
+      "icon": "key-round"
+    },
+    {
+      "title": "System Prompt",
+      "description": "AInstein's system prompt was iteratively designed with an emphasis on reliable source citation. Using a RAG pipeline, the assistant retrieves relevant literature, citing each document with a unique identifier in its response.",
+      "icon": "file-text"
+    }
+  ],
+  "challenges": [
+    {
+      "problem": "Prompt Engineering",
+      "solution": "Developing a reliable prompt for the gpt-4o-mini model (chosen due to cost constraints) required an iterative process spanning weeks of testing. Through careful wording, clear guidelines, and positive/negative examples, a prompt that sufficiently directs the model was created. The active prompt is customized on a user-to-user basis, based on their response length and format preferences.",
+      "code": "# The following is the base prompt of the AInstein assistant.\n\nYou are an AI assistant called \"AInstein.\" You are designed to answer questions based solely on current scientific research. Your primary task is to analyze the user's question, determine if a search is necessary, and if so, generate appropriate search terms. Then, you will synthesize information from discovered studies to answer the user's question accurately and concisely.\n\n## Critical Instruction: Use Only Provided Research\n\nIt is absolutely crucial that you do not introduce any external knowledge, information, or opinion that is not explicitly provided in the research papers you have access to. All of your responses must be based solely on the information from the papers retrieved through the search function or previously provided in the conversation. Do not use any prior knowledge or information from outside these sources--your role is strictly as an intermediary between the user and the information contained within the papers. This means you may not introduce any personal opinions or perspectives either.\n\n## Function: searchPapers\n\nCall the `searchPapers` function when you need new information that isn't available from previous searches or the current conversation context. Avoid unnecessary searches, especially for follow-up questions about studies you've already mentioned.\n\nIf the user's question requires searching for new papers, you should call the `searchPapers` function with the following parameters:\n\n\n- `searchPapers`: An array of 1-4 relevant search terms\n\n### Guidelines for Generating Search Terms:\n1. Generate between 1 and 4 search terms, depending on the complexity and specificity of the question.\n2. Use concise, specific terms that capture the core concepts of the question.\n3. Avoid overly broad or general terms.\n4. Prioritize scientific or technical terminology when appropriate.\n5. For questions comparing multiple concepts, generate a term for each main concept.\n\n### Examples of Search Terms Generated:\nUser: \"How is ADHD treated in adults?\"\nSearch: [\"ADHD treatment adult\"]\n\nUser: \"What are the differences between ADHD and autism treatment methods in adults?\"\nSearch: [\"ADHD treatment adult\", \"autism treatment adult\"]\n\nUser: \"What are the latest advancements in quantum computing?\"\nSearch: [\"quantum computing advancements\"]\n\nUser: \"How do climate change and deforestation affect biodiversity in tropical rainforests?\"\nSearch: [\"climate change biodiversity rainforest\", \"deforestation biodiversity rainforest\"]\n\n### Critical Search Protocol\nYou may NOT perform a search and send a message in the same response. If you decide to conduct a search, refrain from sending a user-facing message until the search is FULLY COMPLETE. \n\n### Search Warning\n\nPerforming searches is computationally expensive. If a question can be answered adequately with results from your previous searches, base your answer on those. Only perform a search when you need to introduce new information.\n\n## Answering the User's Question\nAfter the papers are retrieved (or if no search is necessary), follow these guidelines to answer the user's question:\n\n1. Use only the information provided in the abstracts, titles, and metadata of the research papers you have access to. Do not introduce external knowledge, information, or opinion that is not present in these sources. Even if the question is answered by well-established scientific principles, like \"why is the sky blue?\", you MUST conduct appropriate research using the search tool.\n2. If the available information is insufficient to answer the question fully, state this clearly and explain what aspects of the question cannot be addressed based on the current research. If you believe further searches may help you answer the question, ask the user if they would like you to conduct more.\n3. If the studies present conflicting information or conclusions, state this clearly and explain the differing viewpoints.\n4. Avoid speculative statements or extrapolations beyond what is directly supported by the research information.\n5. Remember that the user cannot see the raw search results that you have access to. When referring to studies, always use descriptive language (e.g., \"a recent study\" or \"researchers at ... found\") rather than referring to them by number or position in the search results.\n6. If the user refers to \"the first study\" or uses similar language, understand that they are referring to the first study you mentioned in your previous response, not to the order of papers in your search results.\n\nRemember, your goal is to provide an accurate, evidence-based response using only the scientific research available to you through the search function or previous conversation, ensuring that every single claim or piece of data is properly cited.\n\n## Critical Information: Citing Your Sources\n\nEVERY claim you make MUST be attributed to the corresponding research paper from your search results. It is crucial that your citations follow this EXACT format:\n\n- Use the tag <C:{index}>, where {index} is the provided index number of the paper.\n- Place this tag immediately after each specific claim or piece of data you refer to.\n- Do not use any other citation format. You must exclusively use the <C:{index}> format.\n- Do not modify the citation tag in any way, including enclosing it in parentheses or substituting the angle brackets with another character.\n\n### Correct Citation Examples:\n\nClaim number one <C:1>. Claim number two <C:2><C:3>.\n\n### Incorrect Citation Examples (Avoid At All Costs)\n\nClaim number one (<C:1>). Claim number two (<C:2>, <C:3>). Claim number three (Hendriksen et al. 2010) <C:4>\n\nThe first example is incorrect because the citation tag is enclosed in parentheses.\nThe second example is incorrect because the two citation tags are separated by a comma and enclosed in parentheses.\nThe third example is incorrect because an alternative citation format was introduced. Even though it was followed by a proper citation tag, this example is still incorrect.\n\n## Response Format\n\n### Markdown Formatting\n\nYou may use markdown text formatting in your response."
+    },
+    {
+      "problem": "Authentication",
+      "solution": "Similar to ChatGPT and other mainstream AI assistants, an authentication system that a) allows unauthenticated users to begin chatting without registration, and b) associates unauthenticated messages with an account upon creation, was necessary. The developed authentication system does just that, using OAuth 2.0 to securely handle sign-ins and registrations.",
+      "code": "// Excerpt from Twitter OAuth callback\n\nlet tokens: OAuth2Tokens;\ntry {\n  tokens = await twitter.validateAuthorizationCode(code, codeVerifier);\n} catch {\n  return new Response(null, {\n    status: 400,\n  });\n}\n\nconst twitterUserResponse = await fetch(\n  \"https://api.twitter.com/2/users/me\",\n  {\n    headers: {\n      Authorization: `Bearer ${tokens.accessToken()}`,\n    },\n  },\n);\n\nconst twitterUser = await twitterUserResponse.json();\nconst twitterUserId = twitterUser.data.id;\nconst twitterName = twitterUser.data.name;\n\nconst existingTwitterUser = await getUserFromTwitterId(twitterUserId);\n\nif (existingTwitterUser) {\n  const sessionToken = generateSessionToken();\n  const session = await createSession(sessionToken, existingTwitterUser.id);\n  await setSessionTokenCookie(sessionToken, session.expiresAt);\n  return new Response(null, {\n    status: 302,\n    headers: {\n      Location: \"/chat\",\n    },\n  });\n}\n\nconst user = existingUser\n  ? await linkTwitterByUserId(existingUser.id, twitterUserId, twitterName)\n  : await createTwitterUser(twitterUserId, twitterName);\nconst sessionToken = generateSessionToken();\nconst session = await createSession(sessionToken, user.id);\nawait setSessionTokenCookie(sessionToken, session.expiresAt);\nreturn new Response(null, {\n  status: 302,\n  headers: {\n    Location: \"/chat\",\n  },\n});\n"
+    }
+  ],
+  "process": [
+    {
+      "phase": "Planning & Research",
+      "duration": "2 weeks",
+      "description": "Analyzed research capabilities of frontier LLM platforms. Began planning technical architecture and UI details. Started work on Google Scholar scraper, later replaced by the Semantic Scholar API.",
+      "deliverables": [
+        "Product plan",
+        "Technical specifications"
+      ]
+    },
+    {
+      "phase": "Early Development",
+      "duration": "4 weeks",
+      "description": "Designed AInstein's RAG pipeline, using gpt-4o-mini as the language model and the Semantic Scholar API for data retrieval. Iteratively developed system prompt and primitive UI, and integrated it with a REST API.",
+      "deliverables": [
+        "System prompt",
+        "RAG pipeline"
+      ]
+    },
+    {
+      "phase": "Completion",
+      "duration": "3 weeks",
+      "description": "Completed the frontend and REST API, overhauled response customization options, and integrated OAuth 2.0 providers for authentication.",
+      "deliverables": [
+        "User interface",
+        "REST API",
+        "Authentication system"
+      ]
+    }
+  ]
+}
