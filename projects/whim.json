@@ -3,7 +3,7 @@
   "cardImage": "/whim.png",
   "projectImage": "/whim-preview.png",
   "shortDescription": "Cross-platform location-based social app built with React Native",
-  "github": "https://example.com",
+  "github": "https://github.com/hikitechnology/whim",
   "tags": [
     "TypeScript",
     "React Native",
