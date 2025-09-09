@@ -48,42 +48,46 @@ export default function OverviewTab({ project }: Props) {
       </section>
 
       {/* Key Challenges */}
-      <section>
-        <h2 className="text-2xl font-bold text-zinc-100 mb-6 font-mono">
-          <span className="text-green-400">[</span>Key Challenges
-          <span className="text-green-400">]</span>
-        </h2>
-        <div className="space-y-4">
-          {project.challenges.map((challenge, index) => (
-            <Card
-              key={index}
-              className="bg-zinc-900/50 border-zinc-800 hover:border-green-500/30 transition-colors cursor-pointer"
-              onClick={() =>
-                setSelectedChallenge(selectedChallenge === index ? null : index)
-              }
-            >
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-zinc-100 font-mono">
-                    {challenge.problem}
-                  </h3>
-                  <Code2
-                    className={`h-5 w-5 transition-colors ${selectedChallenge === index ? "text-green-400" : "text-zinc-500"}`}
-                  />
-                </div>
-                <p className="text-zinc-400 mb-4">{challenge.solution}</p>
-                {selectedChallenge === index && (
-                  <div className="bg-zinc-950/80 rounded border border-zinc-700 p-4 font-mono text-sm">
-                    <pre className="text-green-400 overflow-x-auto">
-                      <code>{challenge.code}</code>
-                    </pre>
+      {project.challenges ? (
+        <section>
+          <h2 className="text-2xl font-bold text-zinc-100 mb-6 font-mono">
+            <span className="text-green-400">[</span>Key Challenges
+            <span className="text-green-400">]</span>
+          </h2>
+          <div className="space-y-4">
+            {project.challenges.map((challenge, index) => (
+              <Card
+                key={index}
+                className="bg-zinc-900/50 border-zinc-800 hover:border-green-500/30 transition-colors cursor-pointer"
+                onClick={() =>
+                  setSelectedChallenge(
+                    selectedChallenge === index ? null : index,
+                  )
+                }
+              >
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-zinc-100 font-mono">
+                      {challenge.problem}
+                    </h3>
+                    <Code2
+                      className={`h-5 w-5 transition-colors ${selectedChallenge === index ? "text-green-400" : "text-zinc-500"}`}
+                    />
                   </div>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
+                  <p className="text-zinc-400 mb-4">{challenge.solution}</p>
+                  {selectedChallenge === index && (
+                    <div className="bg-zinc-950/80 rounded border border-zinc-700 p-4 font-mono text-sm">
+                      <pre className="text-green-400 overflow-x-auto">
+                        <code>{challenge.code}</code>
+                      </pre>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

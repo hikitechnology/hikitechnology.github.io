@@ -30,7 +30,7 @@ export type Project = {
     description: string;
     icon: IconName;
   }[];
-  challenges: {
+  challenges?: {
     problem: string;
     solution: string;
     code: string;

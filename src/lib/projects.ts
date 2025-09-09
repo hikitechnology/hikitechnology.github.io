@@ -10,7 +10,7 @@ export async function getProjects(): Promise<Project[]> {
       .filter((name) => !(name[0] === "_"))
       .map(async (name) => ({
         ...JSON.parse(await readFile(path.join(projectsDir, name), "utf8")),
-        id: name.split(".")[0],
+        id: name.split(".").slice(0, -1).join("."),
       })),
   );
   return fileContents;

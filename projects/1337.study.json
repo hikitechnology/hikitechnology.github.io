@@ -1,0 +1,118 @@
+{
+  "title": "1337.study",
+  "cardImage": "/1337.study.png",
+  "shortDescription": "Spaced repetition LeetCode practice tool",
+  "github": "https://github.com/hikitechnology/1337.study",
+  "live": "https://1337.study",
+  "tags": [
+    "TypeScript",
+    "React",
+    "React Router",
+    "Webscraping"
+  ],
+  "inDevelopment": true,
+  "projectImage": "/1337.study-preview.png",
+  "tagline": "LeetCode studying platform",
+  "longDescription": "1337.study is a spaced-repetition-based LeetCode studying platform. Using the SuperMemo 2 algorithm, it optimizes the review process by scheduling problems at increasing intervals, optimizing material retention. The platform tailors practice schedules to individual performance, ensuring effectiveness for learners of all skill levels.\nThe frontend is a SPA made with React Router in declarative mode. LeetCode has no public API, so a Playwright-based scraping approach was used on the backend to gather problem set questions.",
+  "status": "V1 complete",
+  "timeline": "2 weeks",
+  "role": "Fullstack Developer",
+  "team": "Solo Project",
+  "techStack": [
+    {
+      "category": "Frontend",
+      "icon": "globe",
+      "items": [
+        {
+          "name": "TypeScript",
+          "description": "Type-safe development"
+        },
+        {
+          "name": "React",
+          "description": "Composable UI"
+        },
+        {
+          "name": "React Router",
+          "description": "Declarative SPA routing"
+        },
+        {
+          "name": "Zustand",
+          "description": "State management and persistence"
+        }
+      ]
+    },
+    {
+      "category": "Backend",
+      "icon": "server",
+      "items": [
+        {
+          "name": "TypeScript",
+          "description": "Type-safe development"
+        },
+        {
+          "name": "Bun",
+          "description": "Modern TypeScript runtime"
+        }
+      ]
+    }
+  ],
+  "features": [
+    {
+      "title": "Client-side Persistence",
+      "description": "1337.study doesn't rely on the server to store user progress. Instead, question properties are stored using localStorage with Zustand's persistence middleware.",
+      "icon": "package"
+    },
+    {
+      "title": "SM-2 Algorithm",
+      "description": "SM-2 is a popular spaced repetition algorithm, famously used by the flashcard program Anki and originally used in SuperMemo 2. Spaced repetition intervals are determined using my TypeScript implementation.",
+      "icon": "pi"
+    },
+    {
+      "title": "LeetCode Scraper",
+      "description": "LeetCode doesn't provide a publicly accessible API for study plan questions. To support study plan imports, I used a scraping approach to extract problem information from public pages.",
+      "icon": "scissors"
+    },
+    {
+      "title": "React Router",
+      "description": "React Router in declarative mode was used to handle the required routes for this single-page application.",
+      "icon": "package"
+    }
+  ],
+  "process": [
+    {
+      "phase": "Ideation",
+      "duration": "3 days",
+      "description": "Researched proven approaches for studying and arrived at spaced repetition. Decided to use the SM-2 algorithm, inspired by Anki, and implemented it in TypeScript.",
+      "deliverables": [
+        "SM-2 Implementation"
+      ]
+    },
+    {
+      "phase": "Design",
+      "duration": "4 days",
+      "description": "Designed the user dashboard around a set of mock data. Used shadcn/ui components to reduce iteration time.",
+      "deliverables": [
+        "Dashboard Interface"
+      ]
+    },
+    {
+      "phase": "Development",
+      "duration": "1 week",
+      "description": "Set up the problem set scraper and replaced mock data with functional API calls. Extensively tested newly added features.",
+      "deliverables": [
+        "API",
+        "Dashboard Functionality",
+        "Settings Page",
+        "Practice Page"
+      ]
+    },
+    {
+      "phase": "V1 Release",
+      "duration": "1 day",
+      "description": "Released 1337.study to the public!",
+      "deliverables": [
+        "Public Site"
+      ]
+    }
+  ]
+}
